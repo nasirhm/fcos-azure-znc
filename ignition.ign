@@ -1,0 +1,43 @@
+{
+  "ignition": {
+    "version": "3.1.0"
+  },
+  "passwd": {
+    "users": [
+      {
+        "name": "core",
+        "sshAuthorizedKeys": [
+          "YOUR_SSH_KEY_HERE"
+        ]
+      }
+    ]
+  },
+  "storage": {
+    "files": [
+      {
+        "path": "/etc/hostname",
+        "contents": {
+          "source": "data:,cosmos"
+        },
+        "mode": 420
+      },
+      {
+        "path": "/etc/.znc/configs/znc.conf",
+        "contents": {
+          "compression": "gzip",
+          "source": "data:;base64,H4sIAAAAAAAC/2ySW4/TMBCF3/0rDoInLrFYlnJRWqmUFaxUQrVlQeKl8iaT2qo7jmynURfx31EuDUVsHiKNvzlnTiaWEj/mN9l19klIKaTER4fs6zdQYSKiNgGlsYRGt++f2QImwNfMhreP2vbbQGjoThV7w3AeT3PH0TtbKSYLwyGSKpLBe24jecPbM+O7I7TiAo2xFqXzJZkIZS1CXVXOx5P0Qx1hShxdjZLIwpuwOz7v6r3Z6ohGcUR08KQKaLIVHEPec46gDpQ7Ls0W7aTuzJNWQSd9qOCQa8p30DFW4b2UjdmZ5J7zxLBcdMraq2gci+/kg3GMKV4mb5MLkS5NiMTkYWcCAFbOx5ZevLp83R1crw6XmCL6mk715Lxer5eYolQ2kEjlyW4mlk4VX1xRW8J03LAQ6W0gD1bBeL0fRqoQ0D9TPPm1mq/Xm89XN1e/Ozrv/sxAx6mZyXejZnDr2208sRFs+uAFcXxI8k/SXCtuF+4fQGc3o6NpRrFxfofSE7ErqP+e/4TB7CtLG9Wo49iwJn8gP6TJtYrJySRhing2mbx7I8budKEV43FJhfPqRe48ufB3WCpb3NepHELNRCrbXc/EnwAAAP//xNyikiMDAAA="
+        },
+        "mode": 420
+      }
+    ]
+  },
+  "systemd": {
+    "units": [
+      {
+        "contents": "[Unit]\nDescription=ZNC IRC Bouncer\nAfter=network-online.target\nWants=network-online.target\n\n[Service]\nTimeoutStartSec=0\nExecStartPre=-/bin/podman kill znc-irc-bouncer\nExecStartPre=-/bin/podman rm znc-irc-bouncer\nExecStartPre=/bin/podman pull znc\nExecStart=/bin/podman run --name znc-irc-bouncer -p 12345:12345 -v /etc/.znc:/znc-data:z znc\n\n[Install]\nWantedBy=multi-user.target\n",
+        "enabled": true,
+        "name": "znc.service"
+      }
+    ]
+  }
+}
