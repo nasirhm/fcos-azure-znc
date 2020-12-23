@@ -68,6 +68,7 @@ systemd:
         ExecStartPre=-/bin/podman rm znc-irc-bouncer
         ExecStartPre=/bin/podman pull znc
         ExecStart=/bin/podman run --name znc-irc-bouncer -p 12345:12345 -v /etc/.znc:/znc-data:z znc
+        ExecStop=/bin/podman kill znc-irc-bouncer
 
         [Install]
         WantedBy=multi-user.target

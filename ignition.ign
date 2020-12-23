@@ -34,7 +34,7 @@
   "systemd": {
     "units": [
       {
-        "contents": "[Unit]\nDescription=ZNC IRC Bouncer\nAfter=network-online.target\nWants=network-online.target\n\n[Service]\nTimeoutStartSec=0\nExecStartPre=-/bin/podman kill znc-irc-bouncer\nExecStartPre=-/bin/podman rm znc-irc-bouncer\nExecStartPre=/bin/podman pull znc\nExecStart=/bin/podman run --name znc-irc-bouncer -p 12345:12345 -v /etc/.znc:/znc-data:z znc\n\n[Install]\nWantedBy=multi-user.target\n",
+        "contents": "[Unit]\nDescription=ZNC IRC Bouncer\nAfter=network-online.target\nWants=network-online.target\n\n[Service]\nTimeoutStartSec=0\nExecStartPre=-/bin/podman kill znc-irc-bouncer\nExecStartPre=-/bin/podman rm znc-irc-bouncer\nExecStartPre=/bin/podman pull znc\nExecStart=/bin/podman run --name znc-irc-bouncer -p 12345:12345 -v /etc/.znc:/znc-data:z znc\nExecStop=/bin/podman kill znc-irc-bouncer\n\n[Install]\nWantedBy=multi-user.target\n",
         "enabled": true,
         "name": "znc.service"
       }
