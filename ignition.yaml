@@ -13,7 +13,7 @@ storage:
       mode: 0644
       contents:
         inline: cosmos
-    - path: /etc/.znc/configs/znc.conf
+    - path: /etc/znc/configs/znc.conf
       mode: 0644
       contents: 
         inline: |
@@ -35,12 +35,12 @@ storage:
           </Listener>
           LoadModule = webadmin
 
-          <User nasirhm>
-              Pass       = ${PASS_HERE}
+          <User core>
+              Pass       = sha256#dd55bc56a57fd92f8091f1ef45cf119f488230c8544b87f31ea69a6652fd1f11#
               Admin      = true
-              Nick       = nasirhm
-              AltNick    = nasirhm_
-              Ident      = nasirhm
+              Nick       = helloworld
+              AltNick    = helloworld__
+              Ident      = helloworld
               LoadModule = chansaver
               LoadModule = controlpanel
               <Network freenode>
@@ -67,7 +67,7 @@ systemd:
         ExecStartPre=-/bin/podman kill znc-irc-bouncer
         ExecStartPre=-/bin/podman rm znc-irc-bouncer
         ExecStartPre=/bin/podman pull znc
-        ExecStart=/bin/podman run --name znc-irc-bouncer -p 12345:12345 -v /etc/.znc:/znc-data:z znc
+        ExecStart=/bin/podman run --name znc-irc-bouncer -p 12345:12345 -v /etc/znc:/znc-data:z znc
         ExecStop=/bin/podman kill znc-irc-bouncer
 
         [Install]
